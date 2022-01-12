@@ -105,3 +105,6 @@ dist
 
 # SQLite journal files
 *.db-journal
+
+# Simple generaotr output
+generated/

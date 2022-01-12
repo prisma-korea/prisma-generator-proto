@@ -5,6 +5,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator simple {
+  provider = "ts-node simple-generator.ts"
+  output   = "../generated"
+}
+
 datasource db {
   provider = "sqlite"
   url      = "file:dev.db"
