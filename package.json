@@ -1,0 +1,26 @@
+{
+  "name": "generator-helper-demo",
+  "version": "1.0.0",
+  "description": "@prisma/generator-helper 의 작동 방식 시연",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prisma-korea/generator-helper-demo.git"
+  },
+  "author": "Danny Kim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/prisma-korea/generator-helper-demo/issues"
+  },
+  "homepage": "https://github.com/prisma-korea/generator-helper-demo#readme",
+  "dependencies": {
+    "@prisma/client": "^3.8.0",
+    "@types/node": "^17.0.8",
+    "prisma": "^3.8.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  }
+}
