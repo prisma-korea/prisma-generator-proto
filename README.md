@@ -1,2 +1,2 @@
 # generator-helper-demo
-@prisma/generator-helper 의 작동 방식 시연
+Simple demonstration of @prisma/generator-helper.
