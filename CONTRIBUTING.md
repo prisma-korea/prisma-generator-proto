@@ -1,7 +1,7 @@
 ## System Requirements
 
 - Node.JS
-- pnpm
+- [pnpm](https://pnpm.io/)
 
 ## How to Build
 
