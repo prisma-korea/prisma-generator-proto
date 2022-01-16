@@ -15,17 +15,15 @@ datasource db {
   url      = "file:dev.db"
 }
 
-model Student {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Country {
+  id          String    @id @default(cuid())
+  name        String
+  continent   Continent @relation(fields: [continentId], references: [id])
+  continentId String
 }
 
-model Course {
-  id          String   @id @default(cuid())
-  name        String
-  description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+model Continent {
+  id        String    @id @default(cuid())
+  name      String
+  countries Country[]
 }
