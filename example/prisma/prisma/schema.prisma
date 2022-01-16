@@ -5,9 +5,9 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator simple {
-  provider = "ts-node simple-generator.ts"
-  output   = "../generated"
+generator proto {
+  provider = "prisma-generator-proto"
+  output   = "../src/__generated__"
 }
 
 datasource db {

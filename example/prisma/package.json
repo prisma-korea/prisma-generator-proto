@@ -1,0 +1,18 @@
+{
+  "name": "@prisma-generator-proto/example-prisma",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@prisma-korea/prisma-generator-proto": "workspace:^1.0.0",
+    "@prisma/client": "^3.8.1",
+    "prisma": "^3.8.1"
+  }
+}

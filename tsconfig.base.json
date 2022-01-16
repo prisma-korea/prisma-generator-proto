@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "commonjs",
+    "lib": ["esnext"],
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "sourceMap": true,
+    "declaration": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitReturns": true,
+    "paths": {
+      "@prisma-generator-proto/example-prisma": ["./example/prisma/src"],
+      "@prisma-korea/prisma-generator-proto": ["./packages/prisma-generator-proto/src"]
+    },
+  },
+  "include": ["**/*"],
+  "exclude": [
+    "**/dist",
+    "**/build",
+    "**/node_modules"
+  ],
+}
