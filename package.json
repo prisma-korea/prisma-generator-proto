@@ -6,5 +6,20 @@
   "workspaces": [
     "example",
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "turbo": "^1.0.28"
+  },
+  "turbo": {
+    "baseBranch": "origin/main",
+    "pipeline": {
+      "build": {
+        "dependsOn": ["^build"]
+      },
+      "dev": {
+        "dependsOn": ["^build"],
+        "cache": false
+      }
+    }
+  }
 }
