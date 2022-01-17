@@ -3,10 +3,16 @@
 - Node.JS
 - [pnpm](https://pnpm.io/)
 
-## How to Build
+## First Time Setup
 
 ```shell
 # Install dependencies.
+pnpm i
+
+# First build.
+pnpx turbo run build
+
+# Install again (to link bins).
 pnpm i
 
 # Run examples.
