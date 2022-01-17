@@ -6,7 +6,7 @@ export function generateHandler(dmmf: DMMF.Document): string {
   const schemaJson = JSON.stringify(dmmf.schema);
   const mappingsJson = JSON.stringify(dmmf.mappings);
 
-  const file = `import { Router } from "express";
+  const file = `import { Router, Request, Response, NextFunction } from "express";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
