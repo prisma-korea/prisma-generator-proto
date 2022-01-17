@@ -9,7 +9,7 @@ app.get("/", (_, res) => {
   res.send("Hello World!");
 });
 
-app.use(router);
+app.use("/api", router);
 
 app.listen(3001, () => {
   console.log("Listening...");
