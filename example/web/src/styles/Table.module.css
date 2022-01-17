@@ -1,0 +1,17 @@
+.container {
+  height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.table {
+  width: 50vw;
+  text-align: justify;
+  margin-bottom: 10vh;
+}
+
+.form input {
+  margin: 5px;
+}
