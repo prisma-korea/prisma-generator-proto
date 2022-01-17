@@ -39,6 +39,9 @@ const Countries = () => {
       .then((res) => res.json())
       .then((json: Country) => {
         setCountries([...countries, json]);
+      })
+      .catch(() => alert("Country could not be created"))
+      .finally(() => {
         setName("");
         setContinentId("");
       });

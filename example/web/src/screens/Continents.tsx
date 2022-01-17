@@ -35,8 +35,9 @@ const Continents = () => {
       .then((res) => res.json())
       .then((json: Continent) => {
         setContinents([...continents, json]);
-        setName("");
-      });
+      })
+      .catch(() => alert("Continent could not be created"))
+      .finally(() => setName(""));
   };
 
   return (
