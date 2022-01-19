@@ -7,7 +7,12 @@ type FormData = {
 const useEntriesAndValues = <T extends FormData>(
   entryName: string,
   initialValues: Omit<T, "id">
-) => {
+): [
+  T[],
+  React.FormEventHandler<HTMLFormElement>,
+  Omit<T, "id">,
+  React.Dispatch<React.SetStateAction<Omit<T, "id">>>
+] => {
   const [entries, setEntries] = useState<T[]>([]);
   const [values, setValues] = useState(initialValues);
 
@@ -22,7 +27,7 @@ const useEntriesAndValues = <T extends FormData>(
   const addHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    fetch("/api/country", {
+    fetch(`/api/${entryName}`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -39,7 +44,7 @@ const useEntriesAndValues = <T extends FormData>(
       });
   };
 
-  return [entries, addHandler, values, setValues] as const;
+  return [entries, addHandler, values, setValues];
 };
 
 export default useEntriesAndValues;
