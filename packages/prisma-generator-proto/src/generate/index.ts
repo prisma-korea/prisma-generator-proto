@@ -3,6 +3,7 @@ import * as path from "path";
 
 import { DMMF } from "@prisma/generator-helper";
 import { generateHandler } from "./handler";
+import { generateHooks } from "./hooks";
 
 /**
  * Generate files and save them under the output directory.
@@ -23,6 +24,10 @@ export async function generateAndEmit(
   await fs.promises.writeFile(
     path.join(outdir, "routes.ts"),
     generateHandler(dmmf)
+  );
+  await fs.promises.writeFile(
+    path.join(outdir, "hooks.ts"),
+    generateHooks(dmmf.datamodel.models)
   );
   await fs.promises.writeFile(
     path.join(outdir, "datamodel.json"),
