@@ -1,8 +1,9 @@
-import React from "react";
 import Form from "../components/Form";
+import React from "react";
 import Table from "../components/Table";
-import useEntriesAndValues from "../useEntriesAndValues";
 import styles from "../styles/Style.module.css";
+import { useCountry } from "@prisma-generator-proto/example-prisma/dist/__generated__/hooks";
+import useEntriesAndValues from "../useEntriesAndValues";
 
 type Country = {
   id: string;
@@ -16,6 +17,7 @@ const INITIAL_VALUES: Omit<Country, "id"> = {
 };
 
 const Countries = () => {
+  const countryDummy = useCountry();
   const [countries, addHandler, values, setValues] = useEntriesAndValues(
     "country",
     INITIAL_VALUES
