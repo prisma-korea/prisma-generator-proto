@@ -8,7 +8,7 @@
     "dist"
   ],
   "bin": {
-    "prisma-generator-proto": "dist/index.js"
+    "prisma-generator-proto": "cli.js"
   },
   "scripts": {
     "build": "tsc"
