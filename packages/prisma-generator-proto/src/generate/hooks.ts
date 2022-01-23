@@ -1,10 +1,23 @@
 import { DMMF } from "@prisma/generator-helper";
 
 function generateSingleHook(model: DMMF.Model): string {
-  const initialValue: { [key: string]: string | number } = {};
+  const nameOfId = model.fields.find((field) => field.isId)?.name;
+
+  if (nameOfId === undefined) return "";
+
+  const initialValue: Partial<DMMF.Model> = {};
   for (const field of model.fields) {
-    if (field.kind === "scalar" && field.name !== "id") {
-      initialValue[field.name] = "";
+    if (!field.isId && field.kind === "scalar") {
+      switch (field.type) {
+        case "Boolean":
+          initialValue[field.name] = false;
+          break;
+        case "Int" || "BigInt" || "Float":
+          initialValue[field.name] = 0;
+          break;
+        default:
+          initialValue[field.name] = "";
+      }
     }
   }
 
@@ -13,9 +26,9 @@ export const use${model.name} = (): [${
     model.name
   }[], React.FormEventHandler<HTMLFormElement>, Omit<${
     model.name
-  }, "id">, React.Dispatch<React.SetStateAction<Omit<${
+  }, "${nameOfId}">, React.Dispatch<React.SetStateAction<Omit<${
     model.name
-  }, "id">>>] => {
+  }, "${nameOfId}">>>] => {
     const initialValue = ${JSON.stringify(initialValue)}
 
   const [state, setState] = useState<${model.name}[]>([]);
