@@ -1,20 +1,28 @@
 # Prisma Generator Proto
 
-Easily generate CMS from your Prisma schema.
+## System Requirements
 
-## Getting Started
+- Node.JS
+- [pnpm](https://pnpm.io/)
 
-1. Install `@prisma-korea/prisma-generator-proto` package.
+## First Time Setup
 
 ```shell
-npm install @prisma-korea/prisma-generator-proto
+# Install dependencies.
+pnpm i
+
+# First build.
+pnpx turbo run build
+
+# Install again (to link bins).
+pnpm i
+
+# Run examples.
+pnpx turbo run dev
 ```
 
-2. Add the generator to your Prisma schema.
+## Monorepo Structure
 
-```prisma
-generator proto {
-  provider = "prisma-generator-proto"
-  output = "../src/__generated__"
-}
-```
+- `example`: An example project demonstrating how to use `@prisma-korea/prisma-generator-proto` package.
+- `packages`
+  - `prisma-generator-proto`: Generator logic.
