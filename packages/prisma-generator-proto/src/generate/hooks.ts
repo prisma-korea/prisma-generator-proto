@@ -5,7 +5,7 @@ function generateSingleHook(model: DMMF.Model): string {
 
   if (nameOfId === undefined) return "";
 
-  const initialValue: Partial<DMMF.Model> = {};
+  const initialValue: Record<string, unknown> = {};
   for (const field of model.fields) {
     if (!field.isId && field.kind === "scalar") {
       switch (field.type) {
