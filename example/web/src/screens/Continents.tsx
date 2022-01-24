@@ -1,23 +1,11 @@
+import { useContinent } from "@prisma-generator-proto/example-prisma/dist/__generated__/hooks";
 import React from "react";
 import Form from "../components/Form";
 import Table from "../components/Table";
 import styles from "../styles/Style.module.css";
-import useEntriesAndValues from "../useEntriesAndValues";
-
-type Continent = {
-  id: string;
-  name: string;
-};
-
-const INITIAL_VALUES: Omit<Continent, "id"> = {
-  name: "",
-};
 
 const Continents = () => {
-  const [continents, addHandler, values, setValues] = useEntriesAndValues(
-    "continent",
-    INITIAL_VALUES
-  );
+  const [continents, addHandler, values, setValues] = useContinent();
 
   return (
     <div className={styles.container}>
