@@ -1,0 +1,28 @@
+.container {
+  width: 100%;
+  grid-column-start: 6;
+  grid-column-end: 13;
+  text-align: justify;
+}
+
+.container h2 {
+  margin: 10px;
+  font-size: 24pt;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 1rem;
+}
+
+.table th {
+  text-align: center;
+  font-size: 14pt;
+}
+
+.table td {
+  padding: 0.5rem 0.3rem;
+  font-size: 12pt;
+  background-color: #f2f2f2;
+}
