@@ -1,7 +1,7 @@
 import Form from "../components/Form";
 import React from "react";
 import Table from "../components/Table";
-import styles from "../styles/Screen.module.css";
+import styles from "../styles/DataScreen.module.css";
 import { useCountry } from "@prisma-generator-proto/example-prisma/dist/__generated__/hooks";
 
 const Countries = () => {
