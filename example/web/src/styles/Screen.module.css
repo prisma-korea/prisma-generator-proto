@@ -1,0 +1,15 @@
+.screen {
+  height: 100vh;
+  margin: 0;
+
+  padding: 3% 5%;
+
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: auto;
+  column-gap: 30px;
+  justify-items: stretch;
+  align-items: flex-start;
+
+  text-align: center;
+}

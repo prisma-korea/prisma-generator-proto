@@ -2,27 +2,24 @@ import { useContinent } from "@prisma-generator-proto/example-prisma/dist/__gene
 import React from "react";
 import Form from "../components/Form";
 import Table from "../components/Table";
-import styles from "../styles/Style.module.css";
+import styles from "../styles/Screen.module.css";
 
 const Continents = () => {
   const [continents, addHandler, values, setValues] = useContinent();
 
   return (
-    <div className={styles.container}>
-      <div>
-        <h1>Continents</h1>
+    <div className={styles.screen}>
+      <Form
+        name='Continent'
+        onSubmit={addHandler}
+        keys={["name"]}
+        values={values}
+        setValues={setValues}
+      />
 
-        {continents.length > 0 && (
-          <Table entries={continents} keys={["id", "name"]} />
-        )}
-
-        <Form
-          onSubmit={addHandler}
-          keys={["name"]}
-          values={values}
-          setValues={setValues}
-        />
-      </div>
+      {continents.length > 0 && (
+        <Table name='Continent' entries={continents} keys={["id", "name"]} />
+      )}
     </div>
   );
 };

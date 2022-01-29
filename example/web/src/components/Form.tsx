@@ -1,11 +1,12 @@
 import React from "react";
-import styles from "../styles/Style.module.css";
+import styles from "../styles/Form.module.css";
 
 type FormData = {
   [k: string]: string | number;
 };
 
 type Props<T extends FormData> = {
+  name: string;
   onSubmit: React.FormEventHandler;
   keys: (keyof T)[];
   values: T;
@@ -13,27 +14,34 @@ type Props<T extends FormData> = {
 };
 
 const Form = <T extends FormData>({
+  name,
   onSubmit,
   keys,
   values,
-  setValues: setValues,
+  setValues,
 }: Props<T>) => {
   return (
-    <form className={styles.form} onSubmit={onSubmit}>
-      <h2>Add Continent</h2>
+    <div className={styles.container}>
+      <h2>Add {name}</h2>
 
-      {keys.map((key) => (
-        <input
-          key={key.toString()}
-          value={values[key]}
-          placeholder={key.toString()}
-          onChange={(e) =>
-            setValues((original) => ({ ...original, [key]: e.target.value }))
-          }
-        />
-      ))}
-      <input type='submit' value='Add' />
-    </form>
+      <form className={styles.form} onSubmit={onSubmit}>
+        {keys.map((key) => (
+          <div className={styles.input} key={key.toString()}>
+            <label>{key}</label>
+            <input
+              value={values[key]}
+              onChange={(e) =>
+                setValues((original) => ({
+                  ...original,
+                  [key]: e.target.value,
+                }))
+              }
+            />
+          </div>
+        ))}
+        <input className={styles.submit} type='submit' value='ADD' />
+      </form>
+    </div>
   );
 };
 
