@@ -11,6 +11,9 @@
   padding: 5px 40px;
 }
 
-.header h1 {
-  font-size: 24pt;
+.header a {
+  text-decoration: none;
+  color: white;
+  font-size: 24px;
+  padding: 1rem;
 }
