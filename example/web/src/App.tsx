@@ -8,16 +8,14 @@ import Header from "./components/Header";
 
 const App = () => {
   return (
-    <>
+    <Router>
       <Header />
-      <Router>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/country' element={<Countries />} />
-          <Route path='/continent' element={<Continents />} />
-        </Routes>
-      </Router>
-    </>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/country' element={<Countries />} />
+        <Route path='/continent' element={<Continents />} />
+      </Routes>
+    </Router>
   );
 };
 

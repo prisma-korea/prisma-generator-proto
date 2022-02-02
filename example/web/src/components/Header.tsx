@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styles from "../styles/Header.module.css";
 
 const Header = () => {
   return (
     <div className={styles.header}>
-      <h1>Example App</h1>
+      <Link to='/'>Example App</Link>
     </div>
   );
 };

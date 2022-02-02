@@ -7,7 +7,7 @@
 
 .container h2 {
   margin: 10px;
-  font-size: 24pt;
+  font-size: 24px;
 }
 
 .table {
@@ -18,11 +18,11 @@
 
 .table th {
   text-align: center;
-  font-size: 14pt;
+  font-size: 14px;
 }
 
 .table td {
   padding: 0.5rem 0.3rem;
-  font-size: 12pt;
+  font-size: 12px;
   background-color: #f2f2f2;
 }
