@@ -65,6 +65,26 @@ export type ${model.name} = {
 export type ${model.name}FormValues = ${formValueType};`;
 }
 
+/**
+ * Generate array of objects where each object has
+ * the name of the key, and its type.
+ *
+ * Primary key is omitted
+ */
+function generateFieldsArray(model: DMMF.Model): string {
+  const idFieldName = findIdFieldName(model);
+  const editableFields = model.fields
+    .filter((field) => field.kind === "scalar" && field.name !== idFieldName)
+    .map((field) => {
+      return {
+        name: field.name,
+        type: getFieldTsType(field),
+      };
+    });
+
+  return `const ${model.name}FormFields = ${JSON.stringify(editableFields)};`;
+}
+
 function generateSingleHook(model: DMMF.Model): string {
   const initialValue: Record<string, unknown> = {};
   for (const field of model.fields) {
@@ -79,7 +99,8 @@ export const use${model.name} = (): [${
     model.name
   }[], React.FormEventHandler<HTMLFormElement>,
   ${model.name}FormValues, 
-  React.Dispatch<React.SetStateAction<${model.name}FormValues>>] => {
+  React.Dispatch<React.SetStateAction<${model.name}FormValues>>,
+  formFields] => {
   const initialValue = ${JSON.stringify(initialValue)}
 
   const [state, setState] = useState<${model.name}[]>([]);
@@ -113,7 +134,9 @@ export const use${model.name} = (): [${
       });
   };
 
-  return [state, addHandler, values, setValues];
+  ${generateFieldsArray(model)}
+
+  return [state, addHandler, values, setValues, ${model.name}FormFields];
 };
 `;
 }
@@ -122,5 +145,12 @@ export function generateHooks(models: DMMF.Model[]): string {
   const imports = `
 import React, {useState, useEffect} from 'react';
 `;
-  return imports + models.map(generateSingleHook).join("\n\n");
+  return (
+    imports +
+    `export type formFields = {
+      name: string;
+      type: string;
+    }[];` +
+    models.map(generateSingleHook).join("\n\n")
+  );
 }
