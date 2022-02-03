@@ -45,15 +45,20 @@ function generateFieldType(field: DMMF.Field): string {
 }
 
 /**
+ * Generate filtered fields
+ */
+function filterFields(model: DMMF.Model): DMMF.Field[] {
+  return model.fields.filter((field) => field.kind === "scalar");
+}
+
+/**
  * Generate TS code for model type declaration.
  *
  * Client code do not handle nested values, so leave them out.
  * Omit id field from FormValues type if it exists.
  */
 function generateClientType(model: DMMF.Model): string {
-  const editableFields = model.fields.filter(
-    (field) => field.kind === "scalar"
-  );
+  const editableFields = filterFields(model);
   const idFieldName = findIdFieldName(model);
   const formValueType = idFieldName
     ? `Omit<${model.name}, "${idFieldName}">`
@@ -71,10 +76,10 @@ export type ${model.name}FormValues = ${formValueType};`;
  *
  * Primary key is omitted
  */
-function generateFieldsArray(model: DMMF.Model): string {
+function generateFieldsMetaData(model: DMMF.Model): string {
   const idFieldName = findIdFieldName(model);
-  const editableFields = model.fields
-    .filter((field) => field.kind === "scalar" && field.name !== idFieldName)
+  const editableFields = filterFields(model)
+    .filter((field) => field.name !== idFieldName)
     .map((field) => {
       return {
         name: field.name,
@@ -82,7 +87,9 @@ function generateFieldsArray(model: DMMF.Model): string {
       };
     });
 
-  return `const ${model.name}FormFields = ${JSON.stringify(editableFields)};`;
+  return `const ${model.name}FieldsMetaData = ${JSON.stringify(
+    editableFields
+  )};`;
 }
 
 function generateSingleHook(model: DMMF.Model): string {
@@ -100,7 +107,7 @@ export const use${model.name} = (): [${
   }[], React.FormEventHandler<HTMLFormElement>,
   ${model.name}FormValues, 
   React.Dispatch<React.SetStateAction<${model.name}FormValues>>,
-  formFields] => {
+  FormFields] => {
   const initialValue = ${JSON.stringify(initialValue)}
 
   const [state, setState] = useState<${model.name}[]>([]);
@@ -134,9 +141,9 @@ export const use${model.name} = (): [${
       });
   };
 
-  ${generateFieldsArray(model)}
+  ${generateFieldsMetaData(model)}
 
-  return [state, addHandler, values, setValues, ${model.name}FormFields];
+  return [state, addHandler, values, setValues, ${model.name}FieldsMetaData];
 };
 `;
 }
@@ -147,7 +154,7 @@ import React, {useState, useEffect} from 'react';
 `;
   return (
     imports +
-    `export type formFields = {
+    `export type FormFields = {
       name: string;
       type: string;
     }[];` +

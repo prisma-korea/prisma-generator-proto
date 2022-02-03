@@ -5,7 +5,7 @@ import styles from "../styles/DataScreen.module.css";
 import { useCountry } from "@prisma-generator-proto/example-prisma/dist/__generated__/hooks";
 
 const Countries = () => {
-  const [countries, addHandler, values, setValues, countryFormFields] =
+  const [countries, addHandler, values, setValues, countryFieldsMetaData] =
     useCountry();
 
   return (
@@ -13,7 +13,7 @@ const Countries = () => {
       <Form
         name='Country'
         onSubmit={addHandler}
-        keys={countryFormFields}
+        fieldsMetaData={countryFieldsMetaData}
         values={values}
         setValues={setValues}
       />

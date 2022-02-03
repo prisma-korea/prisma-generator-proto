@@ -5,7 +5,7 @@ import Table from "../components/Table";
 import styles from "../styles/DataScreen.module.css";
 
 const Continents = () => {
-  const [continents, addHandler, values, setValues, continentFormFields] =
+  const [continents, addHandler, values, setValues, continentFieldsMetaData] =
     useContinent();
 
   return (
@@ -13,7 +13,7 @@ const Continents = () => {
       <Form
         name='Continent'
         onSubmit={addHandler}
-        keys={continentFormFields}
+        fieldsMetaData={continentFieldsMetaData}
         values={values}
         setValues={setValues}
       />
