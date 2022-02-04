@@ -45,15 +45,20 @@ function generateFieldType(field: DMMF.Field): string {
 }
 
 /**
+ * Generate filtered fields
+ */
+function filterFields(model: DMMF.Model): DMMF.Field[] {
+  return model.fields.filter((field) => field.kind === "scalar");
+}
+
+/**
  * Generate TS code for model type declaration.
  *
  * Client code do not handle nested values, so leave them out.
  * Omit id field from FormValues type if it exists.
  */
 function generateClientType(model: DMMF.Model): string {
-  const editableFields = model.fields.filter(
-    (field) => field.kind === "scalar"
-  );
+  const editableFields = filterFields(model);
   const idFieldName = findIdFieldName(model);
   const formValueType = idFieldName
     ? `Omit<${model.name}, "${idFieldName}">`
@@ -63,6 +68,28 @@ export type ${model.name} = {
   ${editableFields.map(generateFieldType).join("\n  ")}
 };
 export type ${model.name}FormValues = ${formValueType};`;
+}
+
+/**
+ * Generate array of objects where each object has
+ * the name of the key, and its type.
+ *
+ * Primary key is omitted
+ */
+function generateFieldsMetaData(model: DMMF.Model): string {
+  const idFieldName = findIdFieldName(model);
+  const editableFields = filterFields(model)
+    .filter((field) => field.name !== idFieldName)
+    .map((field) => {
+      return {
+        name: field.name,
+        type: getFieldTsType(field),
+      };
+    });
+
+  return `const ${model.name}FieldsMetaData = ${JSON.stringify(
+    editableFields
+  )};`;
 }
 
 function generateSingleHook(model: DMMF.Model): string {
@@ -79,7 +106,8 @@ export const use${model.name} = (): [${
     model.name
   }[], React.FormEventHandler<HTMLFormElement>,
   ${model.name}FormValues, 
-  React.Dispatch<React.SetStateAction<${model.name}FormValues>>] => {
+  React.Dispatch<React.SetStateAction<${model.name}FormValues>>,
+  FormFields] => {
   const initialValue = ${JSON.stringify(initialValue)}
 
   const [state, setState] = useState<${model.name}[]>([]);
@@ -113,7 +141,9 @@ export const use${model.name} = (): [${
       });
   };
 
-  return [state, addHandler, values, setValues];
+  ${generateFieldsMetaData(model)}
+
+  return [state, addHandler, values, setValues, ${model.name}FieldsMetaData];
 };
 `;
 }
@@ -122,5 +152,12 @@ export function generateHooks(models: DMMF.Model[]): string {
   const imports = `
 import React, {useState, useEffect} from 'react';
 `;
-  return imports + models.map(generateSingleHook).join("\n\n");
+  return (
+    imports +
+    `export type FormFields = {
+      name: string;
+      type: string;
+    }[];` +
+    models.map(generateSingleHook).join("\n\n")
+  );
 }

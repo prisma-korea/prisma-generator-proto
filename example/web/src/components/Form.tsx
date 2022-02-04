@@ -1,4 +1,5 @@
 import React from "react";
+import { FormFields } from "@prisma-generator-proto/example-prisma/dist/__generated__/hooks";
 import styles from "../styles/Form.module.css";
 
 type FormData = {
@@ -8,7 +9,7 @@ type FormData = {
 type Props<T extends FormData> = {
   name: string;
   onSubmit: React.FormEventHandler;
-  keys: (keyof T)[];
+  fieldsMetaData: FormFields;
   values: T;
   setValues: React.Dispatch<React.SetStateAction<T>>;
 };
@@ -16,7 +17,7 @@ type Props<T extends FormData> = {
 const Form = <T extends FormData>({
   name,
   onSubmit,
-  keys,
+  fieldsMetaData,
   values,
   setValues,
 }: Props<T>) => {
@@ -25,15 +26,22 @@ const Form = <T extends FormData>({
       <h2>Add {name}</h2>
 
       <form className={styles.form} onSubmit={onSubmit}>
-        {keys.map((key) => (
-          <div className={styles.input} key={key.toString()}>
-            <label>{key}</label>
+        {fieldsMetaData.map((field) => (
+          <div className={styles.input} key={field.name.toString()}>
+            <label>{field.name}</label>
             <input
-              value={values[key]}
+              type={
+                field.type === "string"
+                  ? "text"
+                  : field.type === "boolean"
+                  ? "checkbox"
+                  : "number"
+              }
+              value={values[field.name]}
               onChange={(e) =>
                 setValues((original) => ({
                   ...original,
-                  [key]: e.target.value,
+                  [field.name]: e.target.value,
                 }))
               }
             />

@@ -5,14 +5,15 @@ import Table from "../components/Table";
 import styles from "../styles/DataScreen.module.css";
 
 const Continents = () => {
-  const [continents, addHandler, values, setValues] = useContinent();
+  const [continents, addHandler, values, setValues, continentFieldsMetaData] =
+    useContinent();
 
   return (
     <div className={styles.screen}>
       <Form
         name='Continent'
         onSubmit={addHandler}
-        keys={["name"]}
+        fieldsMetaData={continentFieldsMetaData}
         values={values}
         setValues={setValues}
       />
