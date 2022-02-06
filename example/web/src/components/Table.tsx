@@ -30,7 +30,7 @@ const Table = <T extends List>({ name, list, keys }: Props<T>) => {
           {list.map((entry) => (
             <tr className={styles.entry} key={entry.id}>
               {keys.map((key) => (
-                <td key={key.toString()}>{entry["fields"][key]}</td>
+                <td key={key.toString()}>{entry["fields"][key]?.toString()}</td>
               ))}
             </tr>
           ))}
