@@ -27,19 +27,32 @@ type Props<T extends FormState> = {
   setState: React.Dispatch<React.SetStateAction<T>>;
 };
 
-function toFormValue(state: FormState, fieldName: string): string | undefined {
+function toFormValue(state: FormState, fieldName: string): string {
   const formElement = state[fieldName];
   if (formElement === undefined || formElement.value === undefined) {
-    return undefined;
+    return "";
   }
   switch (formElement.type) {
     case "boolean":
       return fieldName;
     case "number":
-      return formElement.value.toString();
+      return formElement.value?.toString() ?? "";
     case "string":
-      return formElement.value;
+      return formElement.value ?? "";
+    default:
+      return "";
   }
+}
+
+function toFormChecked(
+  state: FormState,
+  fieldName: string
+): boolean | undefined {
+  const element = state[fieldName];
+  if (element?.type === "boolean") {
+    return element.value;
+  }
+  return undefined;
 }
 
 const Form = <T extends FormState>({
@@ -92,6 +105,7 @@ const Form = <T extends FormState>({
                       ? "checkbox"
                       : "number"
                   }
+                  checked={toFormChecked(state, fieldName)}
                   value={toFormValue(state, fieldName)}
                   onChange={handleChange(fieldName)}
                 />
