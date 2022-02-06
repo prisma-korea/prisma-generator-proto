@@ -5,23 +5,22 @@ import styles from "../styles/DataScreen.module.css";
 import { useCountry } from "@prisma-generator-proto/example-prisma/dist/__generated__/hooks";
 
 const Countries = () => {
-  const [countries, addHandler, values, setValues, countryFieldsMetaData] =
-    useCountry();
+  const [countries, addHandler, formState, setFormState] = useCountry();
 
   return (
     <div className={styles.screen}>
       <Form
-        name='Country'
+        name="Country"
+        keys={["name", "population", "continentId", "isUnMember"]}
         onSubmit={addHandler}
-        fieldsMetaData={countryFieldsMetaData}
-        values={values}
-        setValues={setValues}
+        state={formState}
+        setState={setFormState}
       />
 
       <Table
-        name='Country'
-        entries={countries}
-        keys={["id", "name", "continentId"]}
+        name="Country"
+        list={countries}
+        keys={["id", "name", "population", "continentId", "isUnMember"]}
       />
     </div>
   );

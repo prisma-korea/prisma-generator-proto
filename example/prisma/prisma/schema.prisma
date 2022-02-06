@@ -18,6 +18,8 @@ datasource db {
 model Country {
   id          String    @id @default(cuid())
   name        String
+  population  Int       @default(0)
+  isUnMember  Boolean   @default(false)
   continent   Continent @relation(fields: [continentId], references: [id])
   continentId String
 }

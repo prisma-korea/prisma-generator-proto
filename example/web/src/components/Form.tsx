@@ -1,53 +1,118 @@
 import React from "react";
-import { FormFields } from "@prisma-generator-proto/example-prisma/dist/__generated__/hooks";
 import styles from "../styles/Form.module.css";
 
-type FormData = {
-  [k: string]: string | number;
+type FormElement =
+  | {
+      type: "string";
+      value?: string;
+    }
+  | {
+      type: "number";
+      value?: number;
+    }
+  | {
+      type: "boolean";
+      value?: boolean;
+    };
+
+type FormState = {
+  [name: string]: FormElement;
 };
 
-type Props<T extends FormData> = {
+type Props<T extends FormState> = {
   name: string;
   onSubmit: React.FormEventHandler;
-  fieldsMetaData: FormFields;
-  values: T;
-  setValues: React.Dispatch<React.SetStateAction<T>>;
+  keys: (string & keyof T)[];
+  state: T;
+  setState: React.Dispatch<React.SetStateAction<T>>;
 };
 
-const Form = <T extends FormData>({
+function toFormValue(state: FormState, fieldName: string): string {
+  const formElement = state[fieldName];
+  if (formElement === undefined || formElement.value === undefined) {
+    return "";
+  }
+  switch (formElement.type) {
+    case "boolean":
+      return fieldName;
+    case "number":
+      return formElement.value?.toString() ?? "";
+    case "string":
+      return formElement.value ?? "";
+    default:
+      return "";
+  }
+}
+
+function toFormChecked(
+  state: FormState,
+  fieldName: string
+): boolean | undefined {
+  const element = state[fieldName];
+  if (element?.type === "boolean") {
+    return element.value;
+  }
+  return undefined;
+}
+
+const Form = <T extends FormState>({
   name,
   onSubmit,
-  fieldsMetaData,
-  values,
-  setValues,
+  keys,
+  state,
+  setState,
 }: Props<T>) => {
+  const handleChange =
+    (fieldName: string & keyof T) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setState((original) => {
+        const stateCopy = { ...original };
+        const elementCopy = { ...stateCopy[fieldName] };
+        if (elementCopy) {
+          switch (elementCopy.type) {
+            case "boolean":
+              elementCopy.value = e.target.checked;
+              break;
+            case "number":
+              elementCopy.value = parseFloat(e.target.value);
+              break;
+            case "string":
+              elementCopy.value = e.target.value;
+              break;
+            default:
+              break;
+          }
+        }
+        stateCopy[fieldName] = elementCopy;
+        return stateCopy;
+      });
+    };
   return (
     <div className={styles.container}>
       <h2>Add {name}</h2>
 
       <form className={styles.form} onSubmit={onSubmit}>
-        {fieldsMetaData.map((field) => (
-          <div className={styles.input} key={field.name.toString()}>
-            <label>{field.name}</label>
-            <input
-              type={
-                field.type === "string"
-                  ? "text"
-                  : field.type === "boolean"
-                  ? "checkbox"
-                  : "number"
-              }
-              value={values[field.name]}
-              onChange={(e) =>
-                setValues((original) => ({
-                  ...original,
-                  [field.name]: e.target.value,
-                }))
-              }
-            />
-          </div>
-        ))}
-        <input className={styles.submit} type='submit' value='ADD' />
+        {keys.map(
+          (fieldName) =>
+            state[fieldName] !== undefined && (
+              <div className={styles.input} key={fieldName.toString()}>
+                <label>{fieldName}</label>
+                <input
+                  type={
+                    state[fieldName]?.type === "string"
+                      ? "text"
+                      : state[fieldName]?.type === "boolean"
+                      ? "checkbox"
+                      : "number"
+                  }
+                  checked={toFormChecked(state, fieldName)}
+                  value={toFormValue(state, fieldName)}
+                  onChange={handleChange(fieldName)}
+                />
+              </div>
+            )
+        )}
+        <input className={styles.submit} type="submit" value="ADD" />
       </form>
     </div>
   );
