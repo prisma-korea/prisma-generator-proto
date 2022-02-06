@@ -49,6 +49,31 @@ const Form = <T extends FormState>({
   state,
   setState,
 }: Props<T>) => {
+  const handleChange =
+    (fieldName: string & keyof T) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setState((original) => {
+        const stateCopy = { ...original };
+        const elementCopy = { ...stateCopy[fieldName] };
+        if (elementCopy) {
+          switch (elementCopy.type) {
+            case "boolean":
+              elementCopy.value = e.target.checked;
+              break;
+            case "number":
+              elementCopy.value = parseFloat(e.target.value);
+              break;
+            case "string":
+              elementCopy.value = e.target.value;
+              break;
+            default:
+              break;
+          }
+        }
+        stateCopy[fieldName] = elementCopy;
+        return stateCopy;
+      });
+    };
   return (
     <div className={styles.container}>
       <h2>Add {name}</h2>
@@ -68,20 +93,7 @@ const Form = <T extends FormState>({
                       : "number"
                   }
                   value={toFormValue(state, fieldName)}
-                  onChange={(e) =>
-                    setState((original) => {
-                      const copy = { ...original };
-                      const nextValue =
-                        original[fieldName]?.type === "boolean"
-                          ? e.target.checked
-                          : e.target.value;
-                      copy[fieldName] = {
-                        ...original[fieldName],
-                        value: nextValue,
-                      };
-                      return copy;
-                    })
-                  }
+                  onChange={handleChange(fieldName)}
                 />
               </div>
             )
