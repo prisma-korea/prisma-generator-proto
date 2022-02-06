@@ -11,7 +11,7 @@ const Countries = () => {
     <div className={styles.screen}>
       <Form
         name="Country"
-        keys={["name", "continentId"]}
+        keys={["name", "population", "continentId"]}
         onSubmit={addHandler}
         state={formState}
         setState={setFormState}
@@ -20,7 +20,7 @@ const Countries = () => {
       <Table
         name="Country"
         list={countries}
-        keys={["id", "name", "continentId"]}
+        keys={["id", "name", "population", "continentId"]}
       />
     </div>
   );
