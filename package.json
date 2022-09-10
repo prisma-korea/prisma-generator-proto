@@ -1,29 +1,24 @@
 {
-  "name": "prisma-generator-proto-monorepo",
-  "version": "0.0.0",
-  "description": "Monorepo for @prisma-generator-proto",
-  "private": true,
-  "workspaces": [
-    "example/*",
-    "packages/*"
+  "name": "@prisma-korea/prisma-generator-proto",
+  "version": "2.0.0",
+  "description": "Prototype for generating CMS from a Prisma schema.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
   ],
-  "devDependencies": {
-    "turbo": "^1.0.28"
+  "bin": {
+    "prisma-generator-proto": "dist/index.js"
   },
-  "turbo": {
-    "baseBranch": "origin/main",
-    "pipeline": {
-      "build": {
-        "dependsOn": [
-          "^build"
-        ]
-      },
-      "dev": {
-        "dependsOn": [
-          "^build"
-        ],
-        "cache": false
-      }
-    }
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "Prisma Korea",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/generator-helper": "^3.8.1"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.3"
   }
 }

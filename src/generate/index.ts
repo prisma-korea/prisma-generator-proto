@@ -14,7 +14,6 @@ export async function generateAndEmit(
   dmmf: DMMF.Document,
   outdir: string
 ): Promise<void> {
-  const x = dmmf.datamodel.models[0];
   const datamodelJson = JSON.stringify(dmmf.datamodel, null, 2);
   const schemaJson = JSON.stringify(dmmf.schema, null, 2);
   const mappingsJson = JSON.stringify(dmmf.mappings, null, 2);
