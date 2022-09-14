@@ -16,7 +16,8 @@
   "author": "Prisma Korea",
   "license": "MIT",
   "dependencies": {
-    "@prisma/generator-helper": "^3.8.1"
+    "@prisma/generator-helper": "^3.8.1",
+    "eta": "^1.12.3"
   },
   "devDependencies": {
     "typescript": "^4.8.3"
