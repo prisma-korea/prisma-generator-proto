@@ -22,7 +22,7 @@ export async function generateAndEmit(
 
   await fs.promises.writeFile(
     path.join(outdir, "routes.ts"),
-    generateHandler(dmmf)
+    await generateHandler(dmmf)
   );
   await fs.promises.writeFile(
     path.join(outdir, "hooks.ts"),

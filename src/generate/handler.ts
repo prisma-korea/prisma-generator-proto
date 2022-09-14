@@ -1,31 +1,18 @@
 import { DMMF } from "@prisma/generator-helper";
-import { generateCrud } from "./crud";
+import { generate } from "./eta";
 
-export function generateHandler(dmmf: DMMF.Document): string {
+export async function generateHandler(dmmf: DMMF.Document): Promise<string> {
   const datamodelJson = JSON.stringify(dmmf.datamodel);
   const schemaJson = JSON.stringify(dmmf.schema);
   const mappingsJson = JSON.stringify(dmmf.mappings);
 
-  const file = `import { Router, Request, Response, NextFunction } from "express";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-
-export const router = Router();
-
-router.get("/datamodel", (req, res) => {
-  res.send(${datamodelJson});
-});
-
-router.get("/schema", (req, res) => {
-  res.send(${schemaJson});
-});
-
-router.get("/mappings", (req, res) => {
-  res.send(${mappingsJson});
-});
-
-${generateCrud(dmmf.datamodel.models)}
-`;
+  const file = generate("/template/handler.eta", {
+    datamodelJson,
+    schemaJson,
+    mappingsJson,
+    models: dmmf.datamodel.models.map((model) => ({
+      lowerName: model.name.toLowerCase(),
+    })),
+  });
   return file;
 }

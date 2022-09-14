@@ -1,0 +1,33 @@
+app.get("/<%= it.lowerName %>", wrapAsync(async (req, res, next) => {
+  const queryResult = await prisma.<%= it.lowerName %>.findMany();
+  res.send(queryResult);
+}));
+
+app.post("/<%= it.lowerName %>", wrapAsync(async (req, res, next) => {
+  const queryResult = await prisma.<%= it.lowerName %>.create({
+    data: req.body,
+  });
+  res.send(queryResult);
+}));
+
+app.get("/<%= it.lowerName %>/:id", wrapAsync(async (req, res, next) => {
+  const queryResult = await prisma.<%= it.lowerName %>.findUnique({
+    where: {id: req.params.id}
+  });
+  res.send(queryResult);
+}));
+
+app.put("/<%= it.lowerName %>/:id", wrapAsync(async (req, res, next) => {
+  const queryResult = await prisma.<%= it.lowerName %>.update({
+    where: { id: req.params.id },
+    data: req.body,
+  });
+  res.send(queryResult);
+}));
+
+app.delete("/<%= it.lowerName %>/:id", wrapAsync(async (req, res, next) => {
+  const queryResult = await prisma.<%= it.lowerName %>.delete({
+    where: {id: req.params.id },
+  });
+  res.send(queryResult);
+}));

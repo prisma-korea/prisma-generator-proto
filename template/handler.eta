@@ -1,0 +1,37 @@
+import express, { Request, Response, NextFunction } from "express";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+const app = express();
+
+type Handler = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => Promise<void>;
+
+function wrapAsync(handler: Handler): Handler {
+  return async (req, res, next) => {
+    try {
+      await handler(req, res, next);
+    } catch (e) {
+      next(e);
+    }
+  };
+}
+
+app.get("/datamodel", (req, res) => {
+  res.send(<%~ it.datamodelJson %>);
+});
+
+app.get("/schema", (req, res) => {
+  res.send(<%~ it.schemaJson %>);
+});
+
+app.get("/mappings", (req, res) => {
+  res.send(<%~ it.mappingsJson %>);
+});
+
+<% it.models.forEach(function(model) { %>
+  <%~ includeFile("/partials/crud.eta", model) %>
+<% }) %>
