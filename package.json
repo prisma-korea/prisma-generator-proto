@@ -1,6 +1,6 @@
 {
   "name": "@prisma-korea/prisma-generator-proto",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "Prototype for generating CMS from a Prisma schema.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
