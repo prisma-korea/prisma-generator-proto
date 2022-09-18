@@ -4,6 +4,8 @@ Easily generate CMS from your Prisma schema.
 
 ## Getting Started
 
+Assuming you have an existing project that uses Prisma.
+
 1. Install `@prisma-korea/prisma-generator-proto` package.
 
    ```shell
@@ -15,9 +17,14 @@ Easily generate CMS from your Prisma schema.
    ```prisma
    generator proto {
      provider = "prisma-generator-proto"
-     output = "../src/__generated__"
+     output = "../__generated__"
    }
    ```
 
-3. Import the generated express router from `__generated__/router`
-   and generated hooks from `__generated__/hooks`.
+3. Start the generated CMS.
+
+   ```shell
+   cd __generated__
+   npm i
+   npm run dev
+   ```
