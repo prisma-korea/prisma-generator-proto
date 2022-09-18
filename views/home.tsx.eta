@@ -1,0 +1,12 @@
+export default function Home() {
+  return (
+    <>
+      <h1>Models</h1>
+      <ul>
+        <% it.models.forEach(function(model) { %>
+          <li><%= model.name %></li>
+        <% }) %>
+      </ul>
+    </>
+  );
+}

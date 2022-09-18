@@ -1,13 +1,14 @@
 {
   "name": "@prisma-korea/prisma-generator-proto",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Prototype for generating CMS from a Prisma schema.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
+    "partials",
     "template",
-    "partials"
+    "views"
   ],
   "bin": {
     "prisma-generator-proto": "dist/index.js"
@@ -19,9 +20,11 @@
   "license": "MIT",
   "dependencies": {
     "@prisma/generator-helper": "^3.8.1",
-    "eta": "^1.12.3"
+    "eta": "^1.12.3",
+    "fs-extra": "^10.1.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
     "typescript": "^4.8.3"
   }
 }

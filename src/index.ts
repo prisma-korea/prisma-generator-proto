@@ -1,44 +1,39 @@
 #!/usr/bin/env node
 
-import * as fs from "fs";
-
 import { GeneratorConfig, generatorHandler } from "@prisma/generator-helper";
 
 import { generateAndEmit } from "./generate";
 
 /**
- * Ensure prisma-client-js is in the Prisma schema.
+ * Find the output path of prisma-client-js generator.
  * @param otherGenerators List of other generators in the Prisma schema.
  */
-function assertPrismaClientGenerator(otherGenerators: GeneratorConfig[]): void {
-  const hasPrismaClientGenerator = otherGenerators.some(
-    (generator) => generator.provider.value === "prisma-client-js"
-  );
-
-  if (!hasPrismaClientGenerator) {
-    throw new Error(
-      "Please add prisma-client-js generator in your Prisma schema."
-    );
+function findPrismaClientPath(otherGenerators: GeneratorConfig[]): string {
+  for (const generator of otherGenerators) {
+    if (generator.provider.value === "prisma-client-js") {
+      const prismaClientPath = generator.output?.value;
+      if (prismaClientPath == null) {
+        throw new Error(
+          "Could not detect output path of prisma-client-js generator."
+        );
+      }
+      return prismaClientPath;
+    }
   }
-}
 
-/**
- * Remove previously generated files.
- * @param outdir Path to output directory.
- */
-async function clean(outdir: string): Promise<void> {
-  await fs.promises.rm(outdir, { recursive: true, force: true });
+  throw new Error(
+    "Please add prisma-client-js generator in your Prisma schema."
+  );
 }
 
 const DEFAULT_OUTPUT_DIR = "__generated__";
 
 generatorHandler({
   async onGenerate(options) {
-    assertPrismaClientGenerator(options.otherGenerators);
+    const prismaClientPath = findPrismaClientPath(options.otherGenerators);
 
     const outdir = options.generator.output?.value ?? DEFAULT_OUTPUT_DIR;
 
-    await clean(outdir);
-    await generateAndEmit(options.dmmf, outdir);
+    await generateAndEmit(options.dmmf, outdir, prismaClientPath);
   },
 });
