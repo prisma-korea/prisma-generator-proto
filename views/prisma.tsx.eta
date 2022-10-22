@@ -1,0 +1,7 @@
+/**
+ * Import Prisma client from parent project
+ * to use it inside this CMS.
+ */
+import { PrismaClient } from "<%= it.prismaClientModule %>";
+
+export const prisma = new PrismaClient();

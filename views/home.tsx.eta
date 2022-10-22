@@ -1,12 +1,16 @@
+import { Link } from "@remix-run/react";
+
 export default function Home() {
   return (
     <>
       <h1>Models</h1>
-      <ul>
+      <div>
         <% it.models.forEach(function(model) { %>
-          <li><%= model.name %></li>
+          <li>
+            <Link to="/<%= model.name %>"><%= model.name %></Link>
+          </li>
         <% }) %>
-      </ul>
+      </div>
     </>
   );
 }

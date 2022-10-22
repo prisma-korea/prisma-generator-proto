@@ -1,0 +1,22 @@
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { prisma } from "../prisma";
+
+export const loader = async () => {
+  const items = await prisma.<%= it.model.name.toLowerCase() %>.findMany();
+  return json({ items })
+};
+
+export default function() {
+  const { items } = useLoaderData();
+  return (
+    <div>
+      <h1><%= it.model.name %></h1>
+      {
+        items.map((item) => (
+          <p>{JSON.stringify(item)}</p>
+        ))
+      }
+    </div>
+  );
+}
